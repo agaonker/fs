@@ -1,0 +1,66 @@
+body {
+    padding-top: 40px;
+}
+
+textarea {
+    resize: none;
+}
+ 
+.form-signup, .form-signin {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.move-left {
+	float: left;
+}
+
+.salutation {
+	margin-left: 50px;
+	margin-top: 15px;
+	font-size: larger;
+	font-weight: bolder;
+}
+
+.the-resistance{
+	font-size: xx-large;
+}
+
+.menu {
+	border: 1px solid;
+}
+
+.menu-border {
+	border-bottom: 1px solid;
+}
+.input-size {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.msg-container {
+	position:relative;
+	height:120px
+}
+
+.msg-img{
+	float:left;
+	padding:2px;
+}
+
+
+.msg-box{
+	float: left;
+	height: 86px;
+	width: 600px;
+	margin-left: 20px;
+
+}
+
+.normal{
+	border: 2px solid gray;
+}
+
+.highlight{
+	border:2px solid #2E9AFE;
+}

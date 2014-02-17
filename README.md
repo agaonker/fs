@@ -1,0 +1,4 @@
+fs
+==
+
+Resistance network communication 

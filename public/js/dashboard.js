@@ -1,6 +1,8 @@
 $(document).ready(function() {
+	_.templateSettings.variable = "messages";
     get_latest();
 });
+var msg_template = _.template($( "script.message_template" ).html());
 
 function send_message(){
 
@@ -62,14 +64,13 @@ function message_block(msg_feed, entry){
 
 function get_latest(){
 	var msg_feed = $("#msg-feed")
+
 	$.ajax({
 	    	type: "POST",
 	    	url: '/message/latest',
 	    	success:function(results){
 	    		$("#msg-feed").empty();
-	    		results.forEach(function(entry) {
-				    var block = message_block(msg_feed, entry);
-				});
+	    		$("#msg-feed").append(msg_template(results));
 	    	},
 	    	error:function(error){
 

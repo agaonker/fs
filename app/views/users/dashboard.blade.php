@@ -37,3 +37,51 @@
   	</div>
 </div>
 
+<script class="message_template" type="text/template">
+	<div>
+		<% _.each( messages, function( item ){ %>
+		<% var d = moment(item['created_at']); %>
+		<%  var date_str = d.format('D MMMM YYYY  h:mm:ss a'); %>
+		<%if (item.highlight){
+				var msg_div_class = "highlight";
+			}else{
+				var msg_div_class = "normal";
+			}
+
+		%>
+		<div class='msg-img <%=msg_div_class%>'>
+			<img src="<%=item.gravatar%>" width='80px'/>
+		</div>
+		<div class="msg-box <%=msg_div_class%>">
+			<div style="height:20px">
+				<a href="#"  style="float:left">
+					<%=item.firstname%> <%=item.lastname %>
+				</a>
+				<div style="float:left;margin-left:20px">
+					<%=item.role%>
+				</div>
+				<div></div>
+				<div style="float:right">
+					<%=date_str%>
+				</div>
+			</div>	
+			<div>
+				<%=item['data']%>
+			</div>
+			<div style="bottom:5px;position: absolute;width:95%">
+				<span style="margin-left:10px"><%=item.upvote%></span>
+				<span class="glyphicon glyphicon-ok"/>
+				<span style="margin-left:10px"><%=item.downvote%></span>
+				<span class="glyphicon glyphicon-remove"></span>
+				<a href="#"  style="float:left">Show Comments</a>
+				<span><a href="#"  style="float:right;margin-left:10px">Save Message</a></span>
+				<span><a href="#"  style="float:right;">Add Comment</a></span>
+				
+			</div>
+		</div>
+		<% }); %>
+
+	</div>
+</script>
+{{ HTML::script('js/dashboard.js')}}
+

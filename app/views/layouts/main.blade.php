@@ -16,7 +16,7 @@
 	{{ HTML::style('css/main.css')}}
     {{ HTML::script('js/moment.min.js')}}
     {{ HTML::script('js/underscore-min.js')}}
-    {{ HTML::script('js/dashboard.js')}}
+    
 
     <title>Resistance Network</title>
   </head>

@@ -45,7 +45,7 @@ class MessageController extends BaseController {
     					'messages.created_at', 'messages.upvote',
     					'messages.downvote', 'messages.highlight')->get();
 
-    	return $this->_make_response( json_encode( $messages ) );
+    	return $this->_make_response( json_encode( array('messages'=>$messages)) );
   //   	foreach ($messages as $message)
 		// {
 		// 	$response = array(

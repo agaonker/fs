@@ -46,6 +46,7 @@ textarea {
 .msg-img{
 	float:left;
 	padding:2px;
+	clear : both;
 }
 
 
@@ -53,7 +54,9 @@ textarea {
 	float: left;
 	height: 86px;
 	width: 600px;
-	margin-left: 20px;
+	margin: 0px 0px 5px 20px;
+	padding: 5px 5px 0px  20px;
+	position: relative;
 
 }
 

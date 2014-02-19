@@ -15,13 +15,25 @@ Route::controller('users', 'UsersController');
 
 // Route::controller('message', 'MessageController');
 
-Route::any( '/message/send', array(
+Route::post( '/message/send', array(
     'as' => 'message',
     'uses' => 'MessageController@save'
 ) );
 
-Route::any( '/message/latest', array(
+Route::get( '/message/latest', array(
     'as' => 'message',
     'uses' => 'MessageController@latest_msg'
 ) );
+
+Route::post( '/message/save', array(
+    'as' => 'message',
+    'uses' => 'MessageController@save_user_message'
+) );
+
+Route::get( '/message/getsaved', array(
+    'as' => 'message',
+    'uses' => 'MessageController@get_saved_user_mesages'
+) );
+
+
 

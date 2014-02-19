@@ -15,11 +15,11 @@ class CreateSavedMessagesTable extends Migration {
     Schema::create('saved_messages', function($table)
 	    {
 	    	$table->engine = 'InnoDB';
-	    	$table->increments('id');
 	    	$table->integer('user_id')->unsigned();
 	    	$table->integer('message_id')->unsigned();
 	        $table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
 	        $table->foreign('message_id')->references('id')->on('messages')->on_delete('cascade');
+    		$table->primary(array('user_id', 'message_id'));
     		$table->timestamps();
 	    });
 

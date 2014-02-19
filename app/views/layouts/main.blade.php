@@ -26,7 +26,7 @@
         <div class="navbar-inner">
             <div class="container">
                 <ul class="nav">  
-                    <li class="move-left the-resistance">The Resistance</li>  
+                    <li class="move-left the-resistance" onclick="show_message_feed();" style="cursor: pointer;">The Resistance</li>  
                     @if(!Auth::check())
                         <li class="move-left">{{ HTML::link('users/register', 'Signup for Resistance') }}</li>   
                         <li class="move-left">{{ HTML::link('users/login', 'Login') }}</li>   

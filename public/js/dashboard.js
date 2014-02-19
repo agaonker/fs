@@ -34,39 +34,12 @@ function send_message(){
 
 }
 
-function message_block(msg_feed, entry){
-		var int_div = $('<div class="msg-container"></div>');
-		var gravtar, msg_box;
-		if(entry['highlight']){
-			gravtar = $("<div class='msg-img highlight'><img src='"
-			             + entry['gravatar'] 
-			             + "' width='80px'/></span></div>");
-			msg_box = $("<div class='msg-box highlight'></div>");
-		}else{
-			gravtar = $("<div class='msg-img normal'><img src='" + entry['gravatar'] + "' width='80px'/></span></div>");
-			msg_box = $("<div class='msg-box normal'></div>")
-		}
-		
-		int_div.append(gravtar);
-		var d = moment(entry['created_at']);
-		var date_str = d.format('D MMMM YYYY  h:mm:ss a');
-		msg_box.append("<a href='#'' style='float:left'>" + entry['firstname']
-		 	                   + " " + entry['lastname']  + "</a>"
-		 	                   + "<div style='float:left;margin-left:20px'>" 
-		 	                   + entry['role']
-		 	                   + "</div>"
-		 	                   + "<div style='float:right'>" + date_str
-		 	                   + "</div>");
-		msg_box.append("<div>" + entry['data'] + "</div>");
-		msg_feed.append(int_div);
-		msg_feed.append(msg_box);
-}
 
 function get_latest(){
-	var msg_feed = $("#msg-feed")
+	$("#msg-save").empty();
 
 	$.ajax({
-	    	type: "POST",
+	    	type: "GET",
 	    	url: '/message/latest',
 	    	success:function(results){
 	    		$("#msg-feed").empty();
@@ -75,4 +48,53 @@ function get_latest(){
 	    	error:function(error){
 
 	    	}});
+}
+
+
+function get_saved(){
+	$("#msg-save").empty();
+	$.ajax({
+    	type: "GET",
+    	url: '/message/getsaved',
+    	success:function(results){
+    		$("#msg-feed").empty();
+    		$("#msg-feed").append(msg_template(results));
+    	},
+    	error:function(error){
+
+    	}});
+}
+
+function save_message(event){
+		var msg_id = event.target.parentElement.getAttribute('data-message-id'); 
+		$("#msg-save").empty();
+		$.ajax({
+	    	type: "POST",
+	    	url: '/message/save',
+	    	data: { msg_id: msg_id },
+	    	success:function(result){
+	    		$("#msg-save").empty();
+	    		if(result['status']){
+	    			$("#msg-save").append("<span style='color:green'>" + result['msg'] + "</span>");
+	    		}else{
+	    			$("#msg-save").append("<span style='color:red'>"+ result['msg'] + "</span>");
+	    		}
+	    		//$("#msg-save").append(msg_template(results));
+	    	},
+	    	error:function(error){
+
+	    	}});
+}
+
+function show_saved(){
+
+	$("#sec0").text("Saved Messages");
+	$("#refresh").hide();
+	get_saved();
+}
+
+function show_message_feed(){
+	$("#sec0").text("Message Feed");
+	$("#refresh").show();
+	get_latest();
 }

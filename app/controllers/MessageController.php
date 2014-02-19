@@ -1,5 +1,5 @@
 <?php
- 
+
 class MessageController extends BaseController {
     protected $layout = "layouts.main";
 
@@ -46,37 +46,62 @@ class MessageController extends BaseController {
     					'messages.downvote', 'messages.highlight')->get();
 
     	return $this->_make_response( json_encode( array('messages'=>$messages)) );
-  //   	foreach ($messages as $message)
-		// {
-		// 	$response = array(
-	 //            'status' => 'success',
-	 //            'msg' => 'Message sent successfully',
-	 //        );
-		// }
+
     }
 
+    public function save_user_message(){
+    	$saved_message = new Savedmessage;
+		$saved_message->message_id = Input::get( 'msg_id' );
+		$saved_message->user_id = Auth::user()->id;
 
- // public function create() {
- //        //check if its our form
- //        if ( Session::token() !== Input::get( '_token' ) ) {
- //            return $this->_make_response( json_encode( array( 'msg' => 'Unauthorized attempt to create setting' ) ) );
- //        }
- 
- //        $setting_name = Input::get( 'setting_name' );
- //        $setting_value = Input::get( 'setting_value' );
- 
- //        //.....
- //        //validate data
- //        //and then store it in DB
- //        //.....
- 
- //        $response = array(
- //            'status' => 'success',
- //            'msg' => 'Setting created successfully',
- //        );
- 
- //        return $this->_make_response( json_encode( $response ) );
- //    }
+		try {
+    		$saved_message->save();
+    		$response = array(
+            'status' => True,
+            'msg' => 'Message Saved successfully');
+		}catch(\Exception $e){
+    		//Do something when query fails.(#TODO : catch duplicate key exception )
+    		$response = array(
+            'status' => False,
+            'msg' => 'Message Already Saved'); 
+		}
+
+        return $this->_make_response( json_encode( $response ) );
+    }
+
+    public function get_saved_user_mesages(){
+
+    	$result = DB::table('saved_messages')
+    				->where('user_id', '=', Auth::user()->id)
+    				->select('message_id')
+    				->get();
+    	$msg_ids = array();
+    	foreach ($result as $item){
+    		array_push($msg_ids, $item->message_id);
+    	}
+
+    	// $messages = DB::select( DB::raw("SELECT users.firstname, users.lastname, users.role,
+    	// 				users.gravatar, messages.id, messages.data, 
+    	// 				messages.created_at, messages.upvote,
+    	// 				messages.downvote, messages.highlight FROM users, messages 
+    	// 				WHERE users.id = messages.user_id and 
+    	// 				messages.id IN ".msg_ids) );
+    	if(!$msg_ids){
+    		return $this->_make_response( json_encode( array('messages'=>[])) ); 
+    	}
+
+    	$messages = DB::table('messages')
+    				->join('users', 'users.id', '=', 'messages.user_id')
+    				->wherein('messages.id', $msg_ids)
+    				->select('users.firstname', 'users.lastname', 'users.role',
+    					'users.gravatar', 'messages.id', 'messages.data', 
+    					'messages.created_at', 'messages.upvote',
+    					'messages.downvote', 'messages.highlight')->get();
+
+
+    	return $this->_make_response( json_encode( array('messages'=>$messages)) );
+
+    }
 
 }
 ?>

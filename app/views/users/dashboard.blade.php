@@ -4,18 +4,20 @@
               
               	<ul class="nav nav-stacked menu" id="sidebar">
                   <li class="menu-border" ><a data-toggle="modal" href="#myModal">Broadcast Message</a></li>
-                  <li class="menu-border"><a href="#sec1">Saved Messages</a></li>
+                  <li onclick="show_saved();" class="menu-border"><a href="#sec1">Saved Messages</a></li>
                   <li class="menu-border">{{ HTML::link('users/logout', 'Logout') }}</li>
               	</ul>
               
       		</div>  
-      		<div  class="col-md-9">
+      		<div id="main-message-feed" class="col-md-9">
               	<span id="sec0" style="font-size: 20px;font-weight: bolder">	Message Feed 
               	</span>
-              	<a href="#" onclick="get_latest();">Refresh</a>
-              	<div id='msg-feed'>
-              	</div>	
+              	<a id="refresh" href="#" onclick="get_latest();">Refresh</a>
+              	<span id="msg-save"></span>
+              	<div id='msg-feed'/>
       		</div>
+
+
       		<div class="modal" id="myModal">
 				<div class="modal-dialog">
 			      <div class="modal-content">
@@ -68,14 +70,16 @@
 			<div>
 				<%=item['data']%>
 			</div>
-			<div style="bottom:5px;position: absolute;width:95%">
-				<span style="margin-left:10px"><%=item.upvote%></span>
-				<span class="glyphicon glyphicon-ok"/>
-				<span style="margin-left:10px"><%=item.downvote%></span>
-				<span class="glyphicon glyphicon-remove"></span>
+			<div data-message-id="<%=item.id%>" style="bottom:5px;position: absolute;width:95%">
+				<%if (!item.highlight){%>
+					<span style="margin-left:10px"><%=item.upvote%></span>
+					<span class="glyphicon glyphicon-ok"/>
+					<span style="margin-left:10px"><%=item.downvote%></span>
+					<span class="glyphicon glyphicon-remove"/>
+				<%}%>
 				<a href="#"  style="float:left">Show Comments</a>
-				<span><a href="#"  style="float:right;margin-left:10px">Save Message</a></span>
-				<span><a href="#"  style="float:right;">Add Comment</a></span>
+				<a href="#" onclick="save_message(event);"  style="float:right;margin-left:10px">Save Message</a>
+				<a href="#"  style="float:right;">Add Comment</a>
 				
 			</div>
 		</div>

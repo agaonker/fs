@@ -35,5 +35,11 @@ Route::get( '/message/getsaved', array(
     'uses' => 'MessageController@get_saved_user_mesages'
 ) );
 
+Route::any( '/message/vote', array(
+    'as' => 'message',
+    'uses' => 'MessageController@vote'
+) );
+
+
 
 

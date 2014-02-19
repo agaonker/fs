@@ -41,6 +41,7 @@
 
 <script class="message_template" type="text/template">
 	<div>
+
 		<% _.each( messages, function( item ){ %>
 		<% var d = moment(item['created_at']); %>
 		<%  var date_str = d.format('D MMMM YYYY  h:mm:ss a'); %>
@@ -72,13 +73,15 @@
 			</div>
 			<div data-message-id="<%=item.id%>" style="bottom:5px;position: absolute;width:95%">
 				<%if (!item.highlight){%>
-					<span style="margin-left:10px"><%=item.upvote%></span>
-					<span class="glyphicon glyphicon-ok"/>
-					<span style="margin-left:10px"><%=item.downvote%></span>
-					<span class="glyphicon glyphicon-remove"/>
+					<span id="upvote-<%=item.id%>" style="margin-left:10px"><%=item.upvote%></span>
+					<span onclick="vote('upvote');" class="glyphicon glyphicon-ok click"/>
+					<span id="downvote-<%=item.id%>" style="margin-left:10px"><%=item.downvote%></span>
+					<span onclick="vote();" class="glyphicon glyphicon-remove click"/>
 				<%}%>
 				<a href="#"  style="float:left">Show Comments</a>
+				<%if (!save_message){%>
 				<a href="#" onclick="save_message(event);"  style="float:right;margin-left:10px">Save Message</a>
+				<%}%>
 				<a href="#"  style="float:right;">Add Comment</a>
 				
 			</div>

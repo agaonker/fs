@@ -67,3 +67,7 @@ textarea {
 .highlight{
 	border:2px solid #2E9AFE;
 }
+
+.click {
+	cursor: pointer;
+}

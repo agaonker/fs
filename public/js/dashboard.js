@@ -42,6 +42,7 @@ function get_latest(){
 	    	type: "GET",
 	    	url: '/message/latest',
 	    	success:function(results){
+	    		results['save_message'] = false;
 	    		$("#msg-feed").empty();
 	    		$("#msg-feed").append(msg_template(results));
 	    	},
@@ -57,6 +58,7 @@ function get_saved(){
     	type: "GET",
     	url: '/message/getsaved',
     	success:function(results){
+    		results['save_message'] = true;
     		$("#msg-feed").empty();
     		$("#msg-feed").append(msg_template(results));
     	},
@@ -84,6 +86,29 @@ function save_message(event){
 	    	error:function(error){
 
 	    	}});
+}
+
+function vote(upvote){
+	var msg_id = event.target.parentElement.getAttribute('data-message-id');
+	var action;
+	if (upvote){
+		action = "upvote";
+	}else{
+		action = "downvote";
+	}
+	$.ajax({
+    	type: "POST",
+    	url: '/message/vote',
+    	data: { msg_id: msg_id, action: action },
+    	success:function(result){
+    		if (result){
+    			$("#"+action+"-"+msg_id).text(result);
+    		}
+    	},
+    	error:function(error){
+
+    	}});
+
 }
 
 function show_saved(){

@@ -12,7 +12,7 @@ class MessageController extends BaseController {
 
 	public function __construct() {
 	    #$this->beforeFilter('csrf', array('on'=>'post'));
-	    $this->beforeFilter('auth', array('only'=>array('save')));
+	    $this->beforeFilter('auth', array('only'=>array('save', 'latest_msg', 'save_user_message', 'get_saved_user_mesages')));
 	}
 
 	public function save(){
@@ -70,7 +70,8 @@ class MessageController extends BaseController {
     }
 
     public function get_saved_user_mesages(){
-
+    	//Using Query Builder
+    	#TODO : Optimization might be possble
     	$result = DB::table('saved_messages')
     				->where('user_id', '=', Auth::user()->id)
     				->select('message_id')
@@ -80,12 +81,7 @@ class MessageController extends BaseController {
     		array_push($msg_ids, $item->message_id);
     	}
 
-    	// $messages = DB::select( DB::raw("SELECT users.firstname, users.lastname, users.role,
-    	// 				users.gravatar, messages.id, messages.data, 
-    	// 				messages.created_at, messages.upvote,
-    	// 				messages.downvote, messages.highlight FROM users, messages 
-    	// 				WHERE users.id = messages.user_id and 
-    	// 				messages.id IN ".msg_ids) );
+    	
     	if(!$msg_ids){
     		return $this->_make_response( json_encode( array('messages'=>[])) ); 
     	}
@@ -102,6 +98,27 @@ class MessageController extends BaseController {
     	return $this->_make_response( json_encode( array('messages'=>$messages)) );
 
     }
+
+    public function vote(){
+    	//Using Eloquent Model
+    	$message_id = Input::get( 'msg_id' );
+		$action = Input::get( 'action' );
+		//if action == 'upvote' increment
+		//if 'downvote' or anything else decrement
+		$val = -1;
+		$message = Message::where('id','=',$message_id)->first();
+		if(isset($message)){
+			if($action == 'upvote'){
+    			$message->increment('upvote');
+    			$val = $message->upvote +1;
+    		}else{
+    			$message->increment('downvote');
+    			$val = $message->downvote + 1;
+    		}	
+		}
+
+		return $val;
+	}	
 
 }
 ?>

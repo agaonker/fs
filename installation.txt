@@ -1,0 +1,51 @@
+Requirements for Lavarel
+PHP >= 5.3.7
+MCrypt PHP Extension
+
+#Install MyCrypt
+apt-get install mcrypt
+brew install mcrypt (Mac OS )
+
+******************************************************************
+
+On EC2 micro instances
+
+
+If you runphp -r "echo ini_get('memory_limit').PHP_EOL;"and it's something low like 128mb try increasing the limit in your php.ini file (ex. /etc/php5/cli/php.ini)
+
+Now if you still run out of memory you can enable swap, Run following commands
+
+# sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+# sudo /sbin/mkswap /var/swap.1
+# sudo /sbin/swapon /var/swap.1
+
+composer dump-autoload
+composer update
+
+******************************************************************
+
+#Install composer
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+
+composer create-project laravel/laravel resistance --prefer-dist
+
+******************************************************************
+sudo apt-get install php5-mysql
+
+Mysql 
+create database DBNAME;
+create user DBUSER;
+
+GRANT PERMISSION AND SET PASSWORD
+
+******************************************************************
+
+
+Model creation
+  php artisan migrate
+  composer dump-autoload -o
+
+
+********************************************************************
+https://github.com/thomaswelton/laravel-gravatar

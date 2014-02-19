@@ -23,7 +23,7 @@
  
   <body>
     <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
+        <div class="navbar-inner" style="background-color: aliceblue">
             <div class="container">
                 <ul class="nav">  
                     <li class="move-left the-resistance click" onclick="show_message_feed();">The Resistance</li>  

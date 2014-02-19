@@ -45,7 +45,7 @@
 		<% _.each( messages, function( item ){ %>
 		<% var d = moment(item['created_at']); %>
 		<%  var date_str = d.format('D MMMM YYYY  h:mm:ss a'); %>
-		<%if (item.highlight){
+		<%if (item.highlight && item.highlight !== "0"){
 				var msg_div_class = "highlight";
 			}else{
 				var msg_div_class = "normal";
@@ -72,7 +72,7 @@
 				<%=item['data']%>
 			</div>
 			<div data-message-id="<%=item.id%>" style="bottom:5px;position: absolute;width:95%">
-				<%if (!item.highlight){%>
+				<%if (!item.highlight && item.highlight !== "0"){%>
 					<span id="upvote-<%=item.id%>" style="margin-left:10px"><%=item.upvote%></span>
 					<span onclick="vote('upvote');" class="glyphicon glyphicon-ok click"/>
 					<span id="downvote-<%=item.id%>" style="margin-left:10px"><%=item.downvote%></span>
